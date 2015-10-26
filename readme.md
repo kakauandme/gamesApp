@@ -72,12 +72,12 @@ Basic RESTful API interface was created with several endpoints accessible at `/a
   - POST
   	- `/games/?key1=value1&key2=value` - creates new game using passed keys and values
 
-##### Examples
+##### Example requests
   - `/api/v1/games/search?description=lorem&name=real` - searches by name and description
   - `/api/v1/games/4` - displays game by id
   - `/api/v1/film` - not implemented endpoint
 
-##### Response
+##### Example response
 ```json
 [
     {
