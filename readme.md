@@ -2,7 +2,6 @@
 
 [![devDependency Status](https://david-dm.org/zurb/foundation-apps-template/dev-status.svg)](https://david-dm.org/zurb/foundation-apps-template#info=devDependencies)
 
-
 ##Task
 
 Using any tech stack you are comfortable with (PHP, Node, any data layer backend, or none) create a basic Game Library web application.
@@ -19,10 +18,12 @@ Things to consider when developing a solution:
     - Security is not necessary for the test, but describing how the application would be secured is important.
     - Testing.  How would your service we tested?  What testing frameworks would you use?
 
+
+## Solution
+
 gamesApp is based on the default template project for Foundation for Apps, powered by Gulp, Angular, and libsass.
 
-
-## Requirements
+### Requirements
 
 You'll need the following software installed to get started.
 
@@ -36,7 +37,7 @@ You'll need the following software installed to get started.
     - [PHP](http://php.net/downloads.php): Use the installer for your OS. PHP 5.1 is required for PHP Data Objects library.
     - [MySQL](https://www.mysql.com/downloads/): Use the installer for your OS.
 
-## Get Started
+### Get Started
 
 Clone this repository, where `app` is the name of your app.
 
