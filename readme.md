@@ -60,7 +60,7 @@ To build the project  use the `build` command. This will compile the Sass and as
 ```bash
 npm start build
 ```
-**Now go to `localhost[/~username]/app/build/` in your browser to see it in action.** Where `app` is the name of your app and `[/~username]` is a location of default server directory on your installation.
+**Now go to [http://localhost[/~username]/app/build/]([http://localhost/~username/app/build/]) in your browser to see it in action.** Where `app` is the name of your app and `[/~username]` is a location of default server directory on your installation.
 
 ## API
 
