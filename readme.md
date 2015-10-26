@@ -2,8 +2,7 @@
 
 [![devDependency Status](https://david-dm.org/zurb/foundation-apps-template/dev-status.svg)](https://david-dm.org/zurb/foundation-apps-template#info=devDependencies)
 
-gamesApp is based on the default template project for Foundation for Apps, powered by Gulp, Angular, and libsass. 
-
+gamesApp is based on the default template project for Foundation for Apps, powered by Gulp, Angular, and libsass.
 
 
 ## Requirements
@@ -18,7 +17,7 @@ You'll need the following software installed to get started.
   - API
     - [Apache](http://www.apache.org/): Use the installer for your OS.
     - [PHP](http://php.net/downloads.php): Use the installer for your OS.
-    - [MySQL](https://www.mysql.com/downloads/): Use the installer for your OS. After instalation execute *dump.sql* query to create nececery tables. 
+    - [MySQL](https://www.mysql.com/downloads/): Use the installer for your OS.
 
 ## Get Started
 
@@ -40,6 +39,21 @@ Install the dependencies. If you're running Mac OS or Linux, you may need to run
 npm install
 bower install
 ```
+
+For data initiallisation create and select `rest_api_demo` database.
+
+```bash
+mysql> CREATE DATABASE rest_api_demo;
+mysql> USE rest_api_demo;
+```
+
+Execute `dump.sql` query. Additionally check `api/includes/config.php` file and adjsut DB settings if nececery.
+
+
+```bash
+mysql < dump.sql;
+```
+
 
 While you're working on your project, run:
 
