@@ -72,10 +72,15 @@ Basic RESTful API interface was created with several endpoints accessible at `/a
   - POST
   	- `/games/?key1=value1&key2=value` - creates new game using passed keys and values
 
-## Examples
+##### Examples
   - `/api/v1/games/search?description=lorem&name=real` - searches by name and description
   - `/api/v1/games/4` - displays game by id
   - `/api/v1/film` - not implemented endpoint
+
+##### Response
+```json
+[{"id":"1","name":"Real Racing","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros."},{"id":"2","name":"Need for Speed","description":"Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper."},{"id":"3","name":"Fifa 2016","description":"Donec id elit non mi porta gravida at eget metus."},{"id":"4","name":"Sims","description":"Nullam id dolor id nibh ultricies vehicula ut id elit."},{"id":"5","name":"Battelfield","description":"Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Lorem ipsum dolor sit amet, consectetur adipiscing elit."},{"id":"6","name":"Real Racing 4","description":"Vestibulum id ligula porta felis euismod semper. Aenean lacinia bibendum nulla sed consectetur. Donec sed odio dui."}]
+```
 
 
 ## Future steps
