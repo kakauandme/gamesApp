@@ -2,7 +2,6 @@
 
 /**
  * Handling database connection
- *
  */
 class Db {
 
@@ -11,9 +10,9 @@ class Db {
 	function __construct() {
 		require_once 'includes/config.php';
 
-        // Connecting to mysql database
+		// Connecting to mysql database
 		try {
-  
+
 			$this->conn = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME, DB_USERNAME, DB_PASSWORD);
 
 			//this should be ERRMODE_SILENT
@@ -35,9 +34,9 @@ class Db {
 			$STH->execute($values);
 			return $this->conn->lastInsertId();
 		}catch(PDOException $e) {
-           // echo "Something went wrong. Try again later.";
+			// echo "Something went wrong. Try again later.";
 			echo $e->getMessage();
-            //file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
+			//file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
 		}
 	}
 
@@ -55,9 +54,9 @@ class Db {
 			$STH->setFetchMode(PDO::FETCH_ASSOC);
 			return $STH->fetchAll();
 		}catch(PDOException $e) {
-           // echo "Something went wrong. Try again later.";
+			// echo "Something went wrong. Try again later.";
 			echo $e->getMessage();
-            //file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
+			//file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
 		}
 	}
 	public function search($table, $values){      
@@ -79,9 +78,9 @@ class Db {
 			$STH->setFetchMode(PDO::FETCH_ASSOC);
 			return $STH->fetchAll();
 		}catch(PDOException $e) {
-           // echo "Something went wrong. Try again later.";
+			// echo "Something went wrong. Try again later.";
 			echo $e->getMessage();
-            //file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
+			//file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
 		}
 	}
 

@@ -10,11 +10,11 @@
 		'ui.router',
 		'ngAnimate',
 
-	    //foundation
-	    'foundation',
-	    'foundation.dynamicRouting',
-	    'foundation.dynamicRouting.animations'
-    ])
+		//foundation
+		'foundation',
+		'foundation.dynamicRouting',
+		'foundation.dynamicRouting.animations'
+		])
 	//main controller
 	.controller('HomeCtrl', HomeCtrl)	
 	.config(config)
@@ -86,57 +86,56 @@
 					transformRequest: serialiseObject,
 					data: $scope.formData
 				})        	
-				.then(function(response) {
+					.then(function(response) {
 
-					console.log(response);
-					$scope.formData.id = response.data;
-					$scope[global.objectName].push($scope.formData);
-					$scope.addLabel="Add";
-					$scope.success = $scope.formData.name
+						console.log(response);
+						$scope.formData.id = response.data;
+						$scope[global.objectName].push($scope.formData);
+						$scope.addLabel="Add";
+						$scope.success = $scope.formData.name
 
-					$timeout(function() {
-						angular.element(document.getElementById("close-add")).triggerHandler('click');
-						$anchorScroll(global.objectName +'-' + $scope.formData.id);
-						$location.hash(global.objectName +'-' + $scope.formData.id);
-						$scope.formData = {};
-						$scope.success = '';
+						$timeout(function() {
+							angular.element(document.getElementById("close-add")).triggerHandler('click');
+							$anchorScroll(global.objectName +'-' + $scope.formData.id);
+							$location.hash(global.objectName +'-' + $scope.formData.id);
+							$scope.formData = {};
+							$scope.success = '';
 
-					}, 1000);
+						}, 1000);
 
-				},function(response){
-					console.error(response);
-					$scope.addLabel="Add";		
-					$scope.error = response.data;
-				});
-	        }        
+					},function(response){
+						console.error(response);
+						$scope.addLabel="Add";		
+						$scope.error = response.data;
+					});
+			}
+		};
 
-	    };
+		//search
+		$scope.searchLabel="Search";
+		$scope.searchData = {};
+		$scope.search = function() {     	
+			$scope.notFound = '';
+			if($scope.searchData.name){
 
-	     //search
-	     $scope.searchLabel="Search";
-	     $scope.searchData = {};
-	     $scope.search = function() {     	
-	     	$scope.notFound = '';
-	     	if($scope.searchData.name){
-	     		
-	     		$http.get(global.apiUrl+ global.objectName +"/search?" + serialiseObject($scope.searchData), { cache: true })
-	     		.then(function(response) {
-	     			console.log(response);
-	     			$scope[global.objectName] = response.data;
-	     			if(!response.data.length){
-	     				$scope.notFound = "Nothing is matching your query, try different keyword.";
-	     			}
-	     		},function(response){
+				$http.get(global.apiUrl+ global.objectName +"/search?" + serialiseObject($scope.searchData), { cache: true })
+					.then(function(response) {
+						console.log(response);
+						$scope[global.objectName] = response.data;
+						if(!response.data.length){
+							$scope.notFound = "Nothing is matching your query, try different keyword.";
+						}
+					},function(response){
 
-	     			console.error(response.data);
+						console.error(response.data);
 
-	     		});
-	     	// empty field -> show all
-	     	}else{
-	     		$scope[global.objectName] = global.data;
-	     	}
-	     };
-	     return $scope;
-	 }
+					});
+			// empty field -> show all
+			}else{
+				$scope[global.objectName] = global.data;
+			}
+		};
+		return $scope;
+	}
 
 })();
