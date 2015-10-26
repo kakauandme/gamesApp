@@ -4,7 +4,11 @@
 
 
 	global.apiUrl = "api/v1/";	
-	global.objectName = "games";	
+	global.objectName = "games";
+
+
+
+
 	angular.module('application', [
 		'ui.router',
 		'ngAnimate',
@@ -21,7 +25,7 @@
 	.config(config)
 	.run(run)
 	;
-	HomeCtrl.$inject = ['$scope', '$stateParams', '$state', '$controller', '$http', '$log', '$timeout', '$location', '$anchorScroll'];
+	HomeCtrl.$inject = ['$scope', '$stateParams', '$state', '$controller', '$http', '$window', '$timeout', '$location', '$anchorScroll'];
 	config.$inject = ['$urlRouterProvider', '$locationProvider'];
 
 	function config($urlProvider, $locationProvider) {
@@ -38,79 +42,122 @@
 	function run() {
 		FastClick.attach(document.body);
 	}
-	function HomeCtrl($scope, $stateParams, $state, $controller, $http, $log, $timeout, $location, $anchorScroll) {
+
+	function serialiseObject(data){
+
+		var str = [];
+
+		for(var p in data)
+			str.push(encodeURIComponent(p) + "=" + encodeURIComponent(data[p]));
+
+
+		return str.join("&");
+	}
+
+	function HomeCtrl($scope, $stateParams, $state, $controller, $http, $window, $timeout, $location, $anchorScroll) {
 		angular.extend(this, $controller('DefaultController', {$scope: $scope, $stateParams: $stateParams, $state: $state}));
+		
+
+
 		$scope[global.objectName] = [];
 		$scope.id = ($state.params.id!==''?$state.params.id:"");
 		
 		// There is no ID, so we'll show a list of all films.
 		$http.get(global.apiUrl+ global.objectName +"/" +$scope.id, { cache: true })
-			.then(function(response) {
-				$log.log(response);
-				$scope[global.objectName] = response.data;
-			},function(response){
-				
-				$log.error(response.data);
-				
-			});
+		.then(function(response) {
+			console.log(response);
+			$scope[global.objectName] = response.data;
+			global.data = response.data;
+			if(!response.data.length){
+     				$scope.notFound = "No games yet. Add a new one.";
+     			}
+		},function(response){
+
+			console.error(response.data);
+
+		});
+
+		//add
+		$scope.addLabel="Add";
+		$scope.formData = {};
 
 
-	$scope.submitLabel="Add";
-      $scope.formData = {};
+		$scope.submit = function() {
+			$scope.error = '';
+			$scope.success = '';
+			if ($scope.formData.name) {
+				$scope.addLabel="Adding...";
 
-    
-      $scope.submit = function() {
-      	$scope.error = '';
-      	$scope.success = '';
-        if ($scope.formData.name) {
-        	$scope.submitLabel="Adding...";
-    
-        	$http({
-			    method: 'POST',
-			    url: global.apiUrl+ global.objectName +"/",
-			    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			    transformRequest: function(data) {
-			    	
-			        var str = [];
+				$http({
+					method: 'POST',
+					url: global.apiUrl+ global.objectName +"/",
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					transformRequest: serialiseObject,
+					data: $scope.formData
+				})        	
+				.then(function(response) {
 
-			        for(var p in data)
-			        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(data[p]));
+					console.log(response);
+					$scope.formData.id = response.data;
+					$scope[global.objectName].push($scope.formData);
+					$scope.addLabel="Add";
+					$scope.success = $scope.formData.name
 
-			
-			        return str.join("&");
-			    },
-			    data: $scope.formData
-			})        	
-        	.then(function(response) {
+					$timeout(function() {
+						angular.element(document.getElementById("close-add")).triggerHandler('click');
+						$anchorScroll(global.objectName +'-' + $scope.formData.id);
+						$location.hash(global.objectName +'-' + $scope.formData.id);
+						$scope.formData = {};
+						$scope.success = '';
 
-        		console.log(response);
-        		$scope.formData.id = response.data;
-        		$scope[global.objectName].push($scope.formData);
-        		$scope.submitLabel="Add";
-        		$scope.success = $scope.formData.name
+					}, 1000);
 
-        		$timeout(function() {
-				    angular.element(document.getElementById("close-add")).triggerHandler('click');
-				    $anchorScroll('game-' + $scope.formData.id);
-				    $location.hash('game-' + $scope.formData.id);
-				    $scope.formData = {};
-				    $scope.success = '';
+				},function(response){
+					console.error(response);
+					$scope.addLabel="Add";		
+					$scope.error = response.data;
+				});
 
-				  }, 1000);
-				
-			},function(response){
-				console.error(response);
-				$scope.submitLabel="Add";		
-				$scope.error = response.data;
-			});
-         
          	// $scope.formData.newGameName = '';
          	// $scope.formData.newGameDescription = '';
-        }
-      };
+         }
 
-		return $scope;
 
-	}
+         
+
+     };
+
+     $scope.searchLabel="Search";
+     $scope.searchData = {};
+     $scope.search = function() {
+     	
+     	//$scope.id = '99';
+     	
+		$scope.notFound = '';
+     	if($scope.searchData.name){
+     		
+     		$http.get(global.apiUrl+ global.objectName +"/search?" + serialiseObject($scope.searchData), { cache: true })
+     		.then(function(response) {
+     			console.log(response);
+     			$scope[global.objectName] = response.data;
+
+     			if(!response.data.length){
+     				$scope.notFound = "Nothing is matching your query, try different keyword";
+     			}
+     		},function(response){
+
+     			console.error(response.data);
+
+     		});
+     	}else{
+     		$scope[global.objectName] = global.data;
+     	}
+
+
+     };
+
+     return $scope;
+
+ }
 
 })();

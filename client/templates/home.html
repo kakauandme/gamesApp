@@ -8,12 +8,19 @@ controller: HomeCtrl
 	<h1>Basic Game Library web application</h1>
 	<p class="lead">version <strong>0.3</strong></p>
 
-
+	<form ng-submit="search()" ng-show="!id">
+		<label>
+			<span class="inline-label">
+				<input type="search" placeholder="Enter game name" name="name" ng-model="searchData.name" >
+				<input type="submit" value="{{searchLabel}}"  class="button"/>
+			</span>
+		</label>
+	</form>
 	<div class="grid-block games " ng-show="games">
 		<div class="small-12 medium-6 large-4 grid-content" ng-repeat="game in games">
-			<div class="card" id="game-{{game.id}}" >
+			<div class="card" id="games-{{game.id}}" >
 				<a ui-sref="home({ id:( game.id ) })">
-				<img src="http://placehold.it/400x200?text={{game.name}}">
+					<img src="http://placehold.it/400x200?text={{game.name}}">
 					<div class="card-divider" >
 						{{game.name }}
 					</div>
@@ -25,6 +32,9 @@ controller: HomeCtrl
 		</div>
 		
 	</div>
+	<div class="grid-content games " ng-show="notFound">
+		<p>{{notFound}}</p>
+	</div>
 	<div class="grid-content" ng-show="id">
 		<a ui-sref="home({id: ''})">View all games</a>
 	</div>
@@ -35,23 +45,23 @@ controller: HomeCtrl
 	<h4>Enter game details</h4>
 	<form ng-submit="submit()">
 		<label>
-		
-		<input type="text" placeholder="Name" required name="name"  ng-model="formData.name" />
+
+			<input type="text" placeholder="Name" required name="name"  ng-model="formData.name" />
 		</label>
 		<label>
-		
-		<textarea placeholder="Description" name="description" ng-model="formData.description" ></textarea>
+
+			<textarea placeholder="Description" name="description" ng-model="formData.description" ></textarea>
 		</label>
-		<input type="submit" value="{{submitLabel}}"  class="button simple"/>
+		<input type="submit" value="{{addLabel}}"  class="button simple"/>
 		<div class="grid-block " ng-show="error">
-		<p class="alert label" style="width:100%;">Something went wrong.<br>Try again later.</p>
+			<p class="alert label" style="width:100%;">Something went wrong.<br>Try again later.</p>
 		</div>
 		<div class="grid-block " ng-show="success">
 			<p class="success label" style="width:100%;">{{success}} was added.</p>
 		</div>
 	</form>
 
-	</div>
-	<a zf-close=""  id="close-add" class="close-button">×</a>
+</div>
+<a zf-close=""  id="close-add" class="close-button">×</a>
 </zf-offcanvas>
 
