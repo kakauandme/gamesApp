@@ -2,6 +2,23 @@
 
 [![devDependency Status](https://david-dm.org/zurb/foundation-apps-template/dev-status.svg)](https://david-dm.org/zurb/foundation-apps-template#info=devDependencies)
 
+
+##Task
+
+Using any tech stack you are comfortable with (PHP, Node, any data layer backend, or none) create a basic Game Library web application.
+
+The library will contain two functions:
+  - Adding new titles
+  - Searching for titles.
+
+Things to consider when developing a solution:
+
+  - The server should use a well-designed, documented REST API
+  - Modern front end practices and design
+  - A description of limitations of the web application.  For instance:
+    - Security is not necessary for the test, but describing how the application would be secured is important.
+    - Testing.  How would your service we tested?  What testing frameworks would you use?
+
 gamesApp is based on the default template project for Foundation for Apps, powered by Gulp, Angular, and libsass.
 
 
