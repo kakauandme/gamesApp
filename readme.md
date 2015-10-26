@@ -2,8 +2,6 @@
 
 [![devDependency Status](https://david-dm.org/zurb/foundation-apps-template/dev-status.svg)](https://david-dm.org/zurb/foundation-apps-template#info=devDependencies)
 
-##Task
-
 Using any tech stack you are comfortable with (PHP, Node, any data layer backend, or none) create a basic Game Library web application.
 
 The library will contain two functions:
