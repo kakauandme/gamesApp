@@ -6,25 +6,21 @@
 	global.apiUrl = "api/v1/";	
 	global.objectName = "games";
 
-
-
-
 	angular.module('application', [
 		'ui.router',
 		'ngAnimate',
 
-    //foundation
-    'foundation',
-    'foundation.dynamicRouting',
-    'foundation.dynamicRouting.animations'
+	    //foundation
+	    'foundation',
+	    'foundation.dynamicRouting',
+	    'foundation.dynamicRouting.animations'
     ])
-
-	.controller('HomeCtrl', HomeCtrl)
-
-	
+	//main controller
+	.controller('HomeCtrl', HomeCtrl)	
 	.config(config)
-	.run(run)
-	;
+	.run(run);
+
+
 	HomeCtrl.$inject = ['$scope', '$stateParams', '$state', '$controller', '$http', '$window', '$timeout', '$location', '$anchorScroll'];
 	config.$inject = ['$urlRouterProvider', '$locationProvider'];
 
@@ -43,17 +39,16 @@
 		FastClick.attach(document.body);
 	}
 
+	//{object} to '&key=value' string
 	function serialiseObject(data){
 
 		var str = [];
-
-		for(var p in data)
+		for(var p in data){
 			str.push(encodeURIComponent(p) + "=" + encodeURIComponent(data[p]));
-
-
+		}
 		return str.join("&");
 	}
-
+	//main controller
 	function HomeCtrl($scope, $stateParams, $state, $controller, $http, $window, $timeout, $location, $anchorScroll) {
 		angular.extend(this, $controller('DefaultController', {$scope: $scope, $stateParams: $stateParams, $state: $state}));
 		
@@ -62,26 +57,22 @@
 		$scope[global.objectName] = [];
 		$scope.id = ($state.params.id!==''?$state.params.id:"");
 		
-		// There is no ID, so we'll show a list of all films.
+		// get games
 		$http.get(global.apiUrl+ global.objectName +"/" +$scope.id, { cache: true })
 		.then(function(response) {
 			console.log(response);
 			$scope[global.objectName] = response.data;
 			global.data = response.data;
 			if(!response.data.length){
-     				$scope.notFound = "No games yet. Add a new one.";
-     			}
+				$scope.notFound = "No "+global.objectName+" yet. Add a new one.";
+			}
 		},function(response){
-
 			console.error(response.data);
-
 		});
 
-		//add
+		//add game
 		$scope.addLabel="Add";
 		$scope.formData = {};
-
-
 		$scope.submit = function() {
 			$scope.error = '';
 			$scope.success = '';
@@ -117,47 +108,35 @@
 					$scope.addLabel="Add";		
 					$scope.error = response.data;
 				});
+	        }        
 
-         	// $scope.formData.newGameName = '';
-         	// $scope.formData.newGameDescription = '';
-         }
+	    };
 
+	     //search
+	     $scope.searchLabel="Search";
+	     $scope.searchData = {};
+	     $scope.search = function() {     	
+	     	$scope.notFound = '';
+	     	if($scope.searchData.name){
+	     		
+	     		$http.get(global.apiUrl+ global.objectName +"/search?" + serialiseObject($scope.searchData), { cache: true })
+	     		.then(function(response) {
+	     			console.log(response);
+	     			$scope[global.objectName] = response.data;
+	     			if(!response.data.length){
+	     				$scope.notFound = "Nothing is matching your query, try different keyword.";
+	     			}
+	     		},function(response){
 
-         
+	     			console.error(response.data);
 
-     };
-
-     $scope.searchLabel="Search";
-     $scope.searchData = {};
-     $scope.search = function() {
-     	
-     	//$scope.id = '99';
-     	
-		$scope.notFound = '';
-     	if($scope.searchData.name){
-     		
-     		$http.get(global.apiUrl+ global.objectName +"/search?" + serialiseObject($scope.searchData), { cache: true })
-     		.then(function(response) {
-     			console.log(response);
-     			$scope[global.objectName] = response.data;
-
-     			if(!response.data.length){
-     				$scope.notFound = "Nothing is matching your query, try different keyword";
-     			}
-     		},function(response){
-
-     			console.error(response.data);
-
-     		});
-     	}else{
-     		$scope[global.objectName] = global.data;
-     	}
-
-
-     };
-
-     return $scope;
-
- }
+	     		});
+	     	// empty field -> show all
+	     	}else{
+	     		$scope[global.objectName] = global.data;
+	     	}
+	     };
+	     return $scope;
+	 }
 
 })();

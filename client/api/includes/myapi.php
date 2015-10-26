@@ -3,11 +3,15 @@ require_once 'includes/api.php';
 require_once 'includes/db.php';
 class MyAPI extends API
 {
-    protected $User;
+	protected $User;
 
-    public function __construct($request, $origin) {
-        parent::__construct($request);
+	public function __construct($request, $origin) {
+		parent::__construct($request);
 
+
+
+		//Authentication
+		
         // $APIKey = new Models\APIKey();
         // $User = new Models\User();
 
@@ -19,40 +23,44 @@ class MyAPI extends API
         //     throw new Exception('Invalid User Token');
         // }
 
-        $this->User = true;
-    }
+		$this->User = true;
+	}
 
     /**
      * Example of an Endpoint
      */
-     protected function games($_args) {
-     
+    protected function games($_args) {
+
         // var_dump($this->method);
-         // var_dump($this->endpoint);
-         // var_dump($this->verb);
+        // var_dump($this->endpoint);
+        // var_dump($this->verb);
         // var_dump($this->args);
         // var_dump($this->file);
         // var_dump($this->request);
 
 
-        $db = new Db();
+    	$db = new Db();
 
-        if ($this->method == 'GET') {
-            if(count($this->args)) {
-                return $this->_response($db->select($this->endpoint, $this->args[0]));               
-            }elseif($this->verb === "search"){
-                return $this->_response($db->search($this->endpoint, $this->request));
-            }else{
-                 return $this->_response($db->select($this->endpoint));
-            }
-        } elseif ($this->method == 'PUT'){
-            return "UPDATE";
-        } elseif ($this->method == 'POST'){
-            return $this->_response($db->insert($this->endpoint, $this->request));
-        } elseif ($this->method == 'DELETE'){
-             return "DELETE";
-        }else{
-            return $this->_response("Request error ", 500);
-        }
-     }
- }
+    	if ($this->method == 'GET') {
+    		// /games/id
+    		if(count($this->args)) {
+    			return $this->_response($db->select($this->endpoint, $this->args[0]));
+    		// /games/search?name=value              
+    		}elseif($this->verb === "search"){
+    			return $this->_response($db->search($this->endpoint, $this->request));
+    		// /games/
+    		}else{
+    			return $this->_response($db->select($this->endpoint));
+    		}
+    	// /games/?name=value1&description=value2
+    	} elseif ($this->method == 'POST'){
+    		return $this->_response($db->insert($this->endpoint, $this->request));
+    	}elseif ($this->method == 'PUT'){
+    		return  $this->_response("UPDATE method not found", 404);
+    	} elseif ($this->method == 'DELETE'){
+    		return return  $this->_response("DELETE method not found", 404);
+    	}else{
+    		return $this->_response("Request error ", 500);
+    	}
+    }
+}

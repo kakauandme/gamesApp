@@ -6,8 +6,10 @@ controller: HomeCtrl
 
 <div class="grid-container">
 	<h1>Basic Game Library web application</h1>
-	<p class="lead">version <strong>0.3</strong></p>
+	<p class="lead">version <strong>0.3</strong> by Kirill Kliavin</p>
 
+
+	<!-- search -->
 	<form ng-submit="search()" ng-show="!id">
 		<label>
 			<span class="inline-label">
@@ -16,6 +18,8 @@ controller: HomeCtrl
 			</span>
 		</label>
 	</form>
+
+	<!-- listing -->
 	<div class="grid-block games " ng-show="games">
 		<div class="small-12 medium-6 large-4 grid-content" ng-repeat="game in games">
 			<div class="card" id="games-{{game.id}}" >
@@ -32,36 +36,42 @@ controller: HomeCtrl
 		</div>
 		
 	</div>
+
+	<!-- no games -->
 	<div class="grid-content games " ng-show="notFound">
 		<p>{{notFound}}</p>
 	</div>
+	<!-- link back -->
 	<div class="grid-content" ng-show="id">
 		<a ui-sref="home({id: ''})">View all games</a>
 	</div>
 </div>
 
+
+<!-- sidebar -->
 <zf-offcanvas id="add" position="right">
-<div class="grid-container add-form">
-	<h4>Enter game details</h4>
-	<form ng-submit="submit()">
-		<label>
+	<div class="grid-container add-form">
+		<h4>Enter game details</h4>
+		
+		<!-- new game -->
+		<form ng-submit="submit()">
+			<label>
+				<input type="text" placeholder="Name" required name="name"  ng-model="formData.name" />
+			</label>
+			<label>
+				<textarea placeholder="Description" name="description" ng-model="formData.description" ></textarea>
+			</label>
+			<input type="submit" value="{{addLabel}}"  class="button simple"/>
+			
+			<div class="grid-block " ng-show="error">
+				<p class="alert label" style="width:100%;">Something went wrong.<br>Try again later.</p>
+			</div>
+			<div class="grid-block " ng-show="success">
+				<p class="success label" style="width:100%;">{{success}} was added.</p>
+			</div>
+		</form>
 
-			<input type="text" placeholder="Name" required name="name"  ng-model="formData.name" />
-		</label>
-		<label>
-
-			<textarea placeholder="Description" name="description" ng-model="formData.description" ></textarea>
-		</label>
-		<input type="submit" value="{{addLabel}}"  class="button simple"/>
-		<div class="grid-block " ng-show="error">
-			<p class="alert label" style="width:100%;">Something went wrong.<br>Try again later.</p>
-		</div>
-		<div class="grid-block " ng-show="success">
-			<p class="success label" style="width:100%;">{{success}} was added.</p>
-		</div>
-	</form>
-
-</div>
-<a zf-close=""  id="close-add" class="close-button">×</a>
+	</div>
+	<a zf-close="" id="close-add" class="close-button">×</a>
 </zf-offcanvas>
 
