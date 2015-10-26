@@ -1,6 +1,10 @@
 (function() {
 	'use strict';
+	var global = {};
 
+
+	global.apiUrl = "api/v1/";	
+	global.objectName = "games";	
 	angular.module('application', [
 		'ui.router',
 		'ngAnimate',
@@ -12,21 +16,12 @@
     ])
 
 	.controller('HomeCtrl', HomeCtrl)
-	.filter('capitalize', function() {
-		return function (input) {
-			return (!!input) ? input.replace(/([^\W_]+[^\s-]*) */g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1)}) : '';
-		}
-	})
-	.filter('lastdir', function () {
-		return function (input) {
-			return (!!input) ? input.split('/').slice(-2, -1)[0] : '';
-		}
-	})
+
 	
 	.config(config)
 	.run(run)
 	;
-	HomeCtrl.$inject = ['$scope', '$stateParams', '$state', '$controller', '$http'];
+	HomeCtrl.$inject = ['$scope', '$stateParams', '$state', '$controller', '$http', '$log', '$timeout', '$location', '$anchorScroll'];
 	config.$inject = ['$urlRouterProvider', '$locationProvider'];
 
 	function config($urlProvider, $locationProvider) {
@@ -43,48 +38,79 @@
 	function run() {
 		FastClick.attach(document.body);
 	}
-	function HomeCtrl($scope, $stateParams, $state, $controller, $http) {
+	function HomeCtrl($scope, $stateParams, $state, $controller, $http, $log, $timeout, $location, $anchorScroll) {
 		angular.extend(this, $controller('DefaultController', {$scope: $scope, $stateParams: $stateParams, $state: $state}));
-   // Your code...
-   //console.log($http);
+		$scope[global.objectName] = [];
+		$scope.id = ($state.params.id!==''?$state.params.id:"");
+		
+		// There is no ID, so we'll show a list of all films.
+		$http.get(global.apiUrl+ global.objectName +"/" +$scope.id, { cache: true })
+			.then(function(response) {
+				$log.log(response);
+				$scope[global.objectName] = response.data;
+			},function(response){
+				
+				$log.error(response.data);
+				
+			});
 
-   $scope.id = ($state.params.id || '');
-   $scope.page = ($state.params.p || 1);
-  // If we're on the first page or page is set to default
-  if ($scope.page == 1) {
-  	if ($scope.id != '') {
-      // We've got a URL parameter, so let's get the single entity's
-      // data from our data source
-      $http.get("http://swapi.co/api/"+'films'+"/"+$scope.id,
-      	{cache: true })
-      .success(function(data) {
-          // If the request succeeds, assign our data to the 'film'
-          // variable, passed to our page through $scope
-          $scope['film'] = data;
-      })
 
-  } else {
-      // There is no ID, so we'll show a list of all films.
-      // We're on page 1, so the next page is 2.
-      $http.get("http://swapi.co/api/"+'films'+"/", { cache: true })
-      .success(function(data) {
-      	$scope['films'] = data;
-      	if (data['next']) $scope.nextPage = 2;
-      });
-  }
-} else {
-    // Once again, there is no ID, so we'll show a list of all films.
-    // If there's a next page, let's add it. Otherwise just add the
-    // previous page button.
-    $http.get("http://swapi.co/api/"+'films'+"/?page="+$scope.page,
-    	{ cache: true }).success(function(data) {
-    		$scope['films'] = data;
-    		if (data['next']) $scope.nextPage = 1*$scope.page + 1;
-    	});
-    	$scope.prevPage = 1*$scope.page - 1;
-    }
-    return $scope;
+	$scope.submitLabel="Add";
+      $scope.formData = {};
 
-}
+    
+      $scope.submit = function() {
+      	$scope.error = '';
+      	$scope.success = '';
+        if ($scope.formData.name) {
+        	$scope.submitLabel="Adding...";
+    
+        	$http({
+			    method: 'POST',
+			    url: global.apiUrl+ global.objectName +"/",
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			    transformRequest: function(data) {
+			    	
+			        var str = [];
+
+			        for(var p in data)
+			        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(data[p]));
+
+			
+			        return str.join("&");
+			    },
+			    data: $scope.formData
+			})        	
+        	.then(function(response) {
+
+        		console.log(response);
+        		$scope.formData.id = response.data;
+        		$scope[global.objectName].push($scope.formData);
+        		$scope.submitLabel="Add";
+        		$scope.success = $scope.formData.name
+
+        		$timeout(function() {
+				    angular.element(document.getElementById("close-add")).triggerHandler('click');
+				    $anchorScroll('game-' + $scope.formData.id);
+				    $location.hash('game-' + $scope.formData.id);
+				    $scope.formData = {};
+				    $scope.success = '';
+
+				  }, 1000);
+				
+			},function(response){
+				console.error(response);
+				$scope.submitLabel="Add";		
+				$scope.error = response.data;
+			});
+         
+         	// $scope.formData.newGameName = '';
+         	// $scope.formData.newGameDescription = '';
+        }
+      };
+
+		return $scope;
+
+	}
 
 })();

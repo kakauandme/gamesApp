@@ -21,6 +21,7 @@ var isProduction = !!(argv.production);
 var paths = {
 	assets: [
 	'./client/**/*.*',
+	'./client/**/.htaccess',
 	'!./client/templates/**/*.*',
 	'!./client/assets/{scss,js}/**/*.*'
 	],

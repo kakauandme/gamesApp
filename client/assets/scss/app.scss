@@ -1,2 +1,14 @@
 @import "settings";
 @import "foundation";
+
+
+.games .card{
+	margin-bottom: 2rem;
+}
+
+.add-form{
+	padding: 4rem 1rem;
+	.grid-block {
+		padding: 0 1rem;
+	}
+}
