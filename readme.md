@@ -55,7 +55,7 @@ mysql < dump.sql;
 ```
 
 
-To build the project  use the `build` command. This will compile the Sass and assemble your Angular app. 
+To build the project  use the `build` command. This will compile the Sass and assemble  Angular app. 
 
 ```bash
 npm start build
