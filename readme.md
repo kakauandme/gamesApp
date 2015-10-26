@@ -55,20 +55,12 @@ mysql < dump.sql;
 ```
 
 
-While you're working on your project, run:
-
-```bash
-npm start
-```
-
-This will compile the Sass and assemble your Angular app. **Now go to `localhost:8080` in your browser to see it in action.** When you change any file in the `client` folder, the appropriate Gulp task will run to build new files.
-
-To run the compiling process once, without watching any files, use the `build` command.
+To build the project  use the `build` command. This will compile the Sass and assemble your Angular app. 
 
 ```bash
 npm start build
 ```
-
+**Now go to `localhost[/~username]/app/build/` in your browser to see it in action.** `app` is the name of your app and `[/~username]` is location of default server directory on your instalation.
 
 ## API
 
@@ -84,6 +76,27 @@ Basic RESTful API interface was created with several endpoints accessable at `/a
   - `/api/v1/games/search?description=lorem&name=real` - searches by name and description
   - `/api/v1/games/4` - displays game by id
   - `/api/v1/film` - not implemented endpoint
+
+
+###Future steps
+
+**Security**
+
+Here are few simple steps that will make RESTful API secure and robust
+ - Authentication and session management
+ - Protect against cross-site request forgery
+ - Input validation & SQL injection prevention
+ - Anti-farming
+ - Whitelist allowable methods & hosts
+
+
+ **Testing**
+
+  - [Chrome Extention](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo)
+  - Unit testing - a script wich will test successfull and unseccessfull testcases, including random generated requests
+  - High load testing - testing server capabilities
+
+
 
 
 
