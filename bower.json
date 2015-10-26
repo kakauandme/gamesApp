@@ -1,0 +1,21 @@
+{
+	"name": "gamesApp",
+	"version": "1.1.0",
+	"authors": [
+	"Kirill Kliavin"
+	],
+	"description": "Demo task for EA",
+	"main": "gulpfile.js",
+	"license": "MIT",
+	"private": true,
+	"ignore": [
+	"**/.*",
+	"node_modules",
+	"bower_components",
+	"test",
+	"tests"
+	],
+	"dependencies": {
+		"foundation-apps": "~1.1.0"
+	}
+}
