@@ -40,7 +40,7 @@ npm install
 bower install
 ```
 
-For data initiallisation create and select `rest_api_demo` database.
+For data initialisation, create and select `rest_api_demo` database.
 
 ```bash
 mysql > CREATE DATABASE rest_api_demo;
@@ -60,11 +60,11 @@ To build the project  use the `build` command. This will compile the Sass and as
 ```bash
 npm start build
 ```
-**Now go to `localhost[/~username]/app/build/` in your browser to see it in action.** `app` is the name of your app and `[/~username]` is location of default server directory on your instalation.
+**Now go to `localhost[/~username]/app/build/` in your browser to see it in action.** `app` is the name of your app and `[/~username]` is a location of default server directory on your installation.
 
 ## API
 
-Basic RESTful API interface was created with several endpoints accessable at `/api/v1/`
+Basic RESTful API interface was created with several endpoints accessible at `/api/v1/`
   - GET
     - `/games/` - fetches all games  
     - `/games/id` - pulls game with matching `id`
@@ -72,15 +72,15 @@ Basic RESTful API interface was created with several endpoints accessable at `/a
   - POST
   	- `/games/?key1=value1&key2=value` - creates new game using passed keys and values
 
-###Examples
+## Examples
   - `/api/v1/games/search?description=lorem&name=real` - searches by name and description
   - `/api/v1/games/4` - displays game by id
   - `/api/v1/film` - not implemented endpoint
 
 
-###Future steps
+## Future steps
 
-**Security**
+##### Security
 
 Here are few simple steps that will make RESTful API secure and robust
  - Authentication and session management
@@ -90,10 +90,10 @@ Here are few simple steps that will make RESTful API secure and robust
  - Whitelist allowable methods & hosts
 
 
- **Testing**
+##### Testing
 
-  - [Chrome Extention](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo)
-  - Unit testing - a script wich will test successfull and unseccessfull testcases, including random generated requests
+  - [Chrome Extention](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) for manual testing and exploration
+  - Unit testing - a script wich will test successful and unsuccessful test cases, including randomly generated requests
   - High load testing - testing server capabilities
 
 
