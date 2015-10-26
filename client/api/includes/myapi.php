@@ -11,7 +11,7 @@ class MyAPI extends API
 
 
 		//Authentication
-		
+
         // $APIKey = new Models\APIKey();
         // $User = new Models\User();
 
@@ -58,7 +58,7 @@ class MyAPI extends API
     	}elseif ($this->method == 'PUT'){
     		return  $this->_response("UPDATE method not found", 404);
     	} elseif ($this->method == 'DELETE'){
-    		return return  $this->_response("DELETE method not found", 404);
+    		return   $this->_response("DELETE method not found", 404);
     	}else{
     		return $this->_response("Request error ", 500);
     	}

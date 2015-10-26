@@ -72,13 +72,21 @@ npm start build
 
 ## API
 
-Basic RESTful API interface was created with several endpoints 
+Basic RESTful API interface was created with several endpoints accessable at `/api/v1/`
   - GET
     - `/games/` - fetches all games  
     - `/games/id` - pulls game with matching `id`
-    - `/games/search?key=value` - lists games with matching key value tuple 
+    - `/games/search?key=value` - lists games with matching key-value tuple 
   - POST
-  	- `/games/?key1=value1&key2=value` - creates new game with passed keys and values
+  	- `/games/?key1=value1&key2=value` - creates new game using passed keys and values
+
+###Examples
+  - `/api/v1/games/search?description=lorem&name=real` - searches by name and description
+  - `/api/v1/games/4` - displays game by id
+  - `/api/v1/film` - not implemented endpoint
+
+
+
 
 
 

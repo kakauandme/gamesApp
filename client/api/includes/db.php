@@ -64,10 +64,16 @@ class Db {
 
 		try{
 			$query = "SELECT * FROM " . $table . " WHERE ";
+
+			$cnt = 0;
 			foreach($values as $k => $v ) {
 				$query.= $k . " LIKE :" . $k ." ";  
 				$prep[$k] = "%". $v . "%";
+				if(++$cnt < count($values)){
+					$query.= "AND ";
+				}
 			}
+			
 			$STH = $this->conn->prepare($query);
 			$STH->execute($prep);
 			$STH->setFetchMode(PDO::FETCH_ASSOC);
